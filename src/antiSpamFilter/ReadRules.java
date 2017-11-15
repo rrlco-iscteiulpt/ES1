@@ -1,14 +1,16 @@
 package antiSpamFilter;
 	
 	import java.io.File;
-	import java.io.FileNotFoundException;
-	import java.util.ArrayList;
-	import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 	public class LerRules {
-
-		public static ArrayList<String> lerRules(){
-			ArrayList<String> rules= new ArrayList<String>();
+		
+		ArrayList <String> rules;
+		
+		public static ArrayList<Table_object> lerRules(){
+			ArrayList<Table_object> rules= new ArrayList<Table_object>();
 			
 			try{
 				File f= new File("rules.cf");
@@ -17,7 +19,7 @@ package antiSpamFilter;
 				try{
 					while(s.hasNextLine()){
 						String line=s.nextLine();
-						rules.add(line);
+						rules.add(new Table_object(line));
 					}
 				}finally{
 					s.close();
@@ -29,6 +31,17 @@ package antiSpamFilter;
 			return rules;
 		}
 		
+		
+		public ArrayList<String> getRules() {
+			return rules;
+		}
+
+
+		public void setRules(ArrayList<String> rules) {
+			this.rules = rules;
+		}
+
+
 		public static void main(String[] args) {
 			lerRules();
 		}
