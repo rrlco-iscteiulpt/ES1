@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-	public class LerRules {
+	public class ReadRules {
 		
 		ArrayList <String> rules;
 		

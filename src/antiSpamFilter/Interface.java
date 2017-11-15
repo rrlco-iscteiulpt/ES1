@@ -17,7 +17,7 @@ private ArrayList <Table_object> lista_regras;
 	private Table_Model modelo_tabela;
 	
 	public Interface() {
-		lista_regras = LerRules.lerRules();
+		lista_regras = ReadRules.lerRules();
 		addFrameContent();
 	}
 
