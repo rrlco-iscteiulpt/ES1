@@ -3,6 +3,7 @@ package antiSpamFilter;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,6 +16,10 @@ private ArrayList <Table_object> lista_regras;
 	private JTable tabela;
 	private JFrame frame;
 	private Table_Model modelo_tabela;
+	private JPanel painel_sul;
+	
+	private JButton botao_gravar;
+	private JButton botao_avaliar;
 	
 	public Interface() {
 		lista_regras = ReadRules.lerRules();
@@ -43,6 +48,15 @@ private ArrayList <Table_object> lista_regras;
 		JScrollPane scroll_tabela = new JScrollPane (tabela);
 		panel.add(scroll_tabela);
 		frame.add(panel,BorderLayout.CENTER);
+		
+		painel_sul = new JPanel();
+		frame.add(painel_sul, BorderLayout.SOUTH);
+		
+		botao_avaliar = new JButton ("Avaliar");
+		botao_gravar = new JButton ("Gravar");
+		
+		painel_sul.add(botao_avaliar);
+		painel_sul.add(botao_gravar);
 		
 
 

@@ -53,6 +53,11 @@ public class Table_Model extends AbstractTableModel{
 		fireTableDataChanged();
 		
 	}
+	
+	@Override
+	public boolean isCellEditable(int row, int column) {
+	    return true;
+	}
 
 	public ArrayList<Table_object> getObjectos() {
 		return objectos;
