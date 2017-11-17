@@ -98,7 +98,33 @@ public class Interface {
 		listAUTOPanel.add(scroll_tabela2, BorderLayout.CENTER);
 
 
-	
+		//Buttons
+				JPanel buttonAUTOPanel = new JPanel();
+				evaluate = new JButton("Avaliar configuração");
+
+				evaluate.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//TODO
+					}
+				});
+
+				save = new JButton("Gravar configuração auto");
+
+				save.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//TODO
+					}
+				});
+
+				buttonAUTOPanel.add(evaluate, BorderLayout.CENTER);
+				buttonAUTOPanel.add(save, BorderLayout.SOUTH);
+				listAUTOPanel.add(buttonAUTOPanel, BorderLayout.EAST);
+
+
+				frame.add(listAUTOPanel);
+
 	}
 
 
