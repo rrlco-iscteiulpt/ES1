@@ -36,75 +36,105 @@ public class Interface {
 		frame.setSize(600, 500);
 		frame.setLayout(new GridLayout(2,2));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		
+
+
+
 		//------------------ MANUAL PANEL ----------------------
 		//Lista
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new BorderLayout());
-		
+
 		modelo_tabela = new Table_Model();
-		
+
 		for(Table_object obj : lista_regras){
 			modelo_tabela.add_regras(obj);
 		}
-		
-		
+
+
 		tabela = new JTable(modelo_tabela);
 		JScrollPane scroll_tabela = new JScrollPane (tabela);
 		listPanel.add(scroll_tabela, BorderLayout.CENTER);
-		
+
 		//Buttons
 		JPanel buttonPanel = new JPanel();
 		evaluate = new JButton("Avaliar configuração");
-		
+
 		evaluate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//TODO
 			}
 		});
-		
+
 		save = new JButton("Gravar configuração manual");
-		
+
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//TODO
 			}
 		});
-		
+
 		buttonPanel.add(evaluate, BorderLayout.CENTER);
 		buttonPanel.add(save, BorderLayout.SOUTH);
 		listPanel.add(buttonPanel, BorderLayout.EAST);
-	
-		
+
+
 		frame.add(listPanel);
-		
+
 		//------------------ AUTO PANEL-------------------
-				//Lista
-				JPanel listAUTOPanel = new JPanel();
-				listAUTOPanel.setLayout(new BorderLayout());
-				
-				modelo_tabela2 = new Table_Model();
-				
-				for(Table_object obj : lista_regras){
-					modelo_tabela2.add_regras(obj);
-				}
-				
-				tabela = new JTable(modelo_tabela2);
-				JScrollPane scroll_tabela2 = new JScrollPane (tabela);
-				listAUTOPanel.add(scroll_tabela2, BorderLayout.CENTER);
-				
+		//Lista
+		JPanel listAUTOPanel = new JPanel();
+		listAUTOPanel.setLayout(new BorderLayout());
+
+		modelo_tabela2 = new Table_Model();
+
+		for(Table_object obj : lista_regras){
+			modelo_tabela2.add_regras(obj);
+		}
+
+		tabela = new JTable(modelo_tabela2);
+		JScrollPane scroll_tabela2 = new JScrollPane (tabela);
+		listAUTOPanel.add(scroll_tabela2, BorderLayout.CENTER);
+
+
+		//Buttons
+		JPanel buttonAUTOPanel = new JPanel();
+		evaluate = new JButton("Avaliar configuração");
+
+		evaluate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		});
+
+		save = new JButton("Gravar configuração auto");
+
+		save.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		});
+
+		buttonAUTOPanel.add(evaluate, BorderLayout.CENTER);
+		buttonAUTOPanel.add(save, BorderLayout.SOUTH);
+		listAUTOPanel.add(buttonAUTOPanel, BorderLayout.EAST);
+
+
+		frame.add(listAUTOPanel);
 
 	}
-	
-		public void open() {
-			frame.setVisible(true);
-		}
-		//		
-	
+
+
+
+
+	public void open() {
+		frame.setVisible(true);
+	}
+	//		
+
 	public static void main(String[] args) {
 		Interface grid = new Interface();
 		grid.open();
