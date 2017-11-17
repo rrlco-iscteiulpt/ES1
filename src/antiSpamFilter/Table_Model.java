@@ -55,9 +55,23 @@ public class Table_Model extends AbstractTableModel{
 	}
 	
 	@Override
-	public boolean isCellEditable(int row, int column) {
-	    return true;
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		super.setValueAt(aValue, rowIndex, columnIndex);
+		objectos.get(rowIndex).setValor(Integer.parseInt(aValue.toString()));
+		fireTableDataChanged();
 	}
+
+
+	public boolean isCellEditable(int row, int col) { 
+	    switch (col) {
+			case 1:
+				return true;
+			default:
+				return false;
+		}
+	}
+
 
 	public ArrayList<Table_object> getObjectos() {
 		return objectos;
