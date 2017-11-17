@@ -70,8 +70,29 @@ public class Interface {
 
 		save.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO
+			public void actionPerformed(ActionEvent arg0) {
+
+
+				ArrayList <String> lista_para_escrever_no_ficheiro = new ArrayList<>();
+				String s = new String();
+				for(Table_object valor : modelo_tabela.getObjectos()){
+					valores_pesos.add(valor.getValor());
+					s = valor.getRegra() + "-" + valor.getValor();
+					lista_para_escrever_no_ficheiro.add(s);
+
+				}
+				try {
+					PrintWriter pw = new PrintWriter("rules.cf");
+					for(String sss : lista_para_escrever_no_ficheiro){
+						pw.println(sss);
+					}
+					pw.close();
+
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				//System.out.println(valores_pesos);
+				System.out.println(lista_para_escrever_no_ficheiro);
 			}
 		});
 
@@ -113,8 +134,29 @@ public class Interface {
 
 				save.addActionListener(new ActionListener() {
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						//TODO
+					public void actionPerformed(ActionEvent arg0) {
+
+
+						ArrayList <String> lista_para_escrever_no_ficheiro = new ArrayList<>();
+						String s = new String();
+						for(Table_object valor : modelo_tabela.getObjectos()){
+							valores_pesos.add(valor.getValor());
+							s = valor.getRegra() + "-" + valor.getValor();
+							lista_para_escrever_no_ficheiro.add(s);
+
+						}
+						try {
+							PrintWriter pw = new PrintWriter("rules.cf");
+							for(String sss : lista_para_escrever_no_ficheiro){
+								pw.println(sss);
+							}
+							pw.close();
+
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+						//System.out.println(valores_pesos);
+						System.out.println(lista_para_escrever_no_ficheiro);
 					}
 				});
 
