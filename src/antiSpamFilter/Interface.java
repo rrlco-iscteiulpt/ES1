@@ -403,6 +403,32 @@ public class Interface {
 		}
 		return index;
 	}
+	
+
+	public String[] lerAntimSpamRS(){
+		String[] tokens=null;
+		try{
+			File f= new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs");
+			Scanner s= new Scanner(f);
+			String line=null;
+			
+			try{
+				
+				for(int i=0; i<lerAntiSpamRF(); i++){
+					line=s.nextLine();
+				}
+				System.out.println(line);
+				tokens=line.split(" ");
+					
+			}finally{
+				s.close();
+			}
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		return tokens;
+	}
+
 	public static void main(String[] args) {
 		Interface grid = new Interface();
 		grid.open();
