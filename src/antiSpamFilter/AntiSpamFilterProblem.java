@@ -10,7 +10,7 @@ public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 
 	  public AntiSpamFilterProblem() {
 	    // 10 variables (anti-spam filter rules) by default 
-	    this(10);
+	    this(335);
 	  }
 
 	  public AntiSpamFilterProblem(Integer numberOfVariables) {
