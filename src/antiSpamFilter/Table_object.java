@@ -3,18 +3,18 @@ package antiSpamFilter;
 public class Table_object {
 	
 	private String regra;
-	private int valor;
+	private double valor;
 	
 	public Table_object (String regra){
 		this.regra = regra;
 		valor = 0;
 	}
 
-	public int getValor() {
+	public double getValor() {
 		return valor;
 	}
 
-	public void setValor(int valor) {
+	public void setValor(double valor) {
 		this.valor = valor;
 	}
 
