@@ -306,6 +306,68 @@ public class Interface {
 
 	}
 	
+	public void calcFN(){	//FALSOS NEGATIVOS
+		hash_ham_NEG = new HashMap<String, ArrayList>();
+
+		try{
+			File file_spam= new File("spam.log");
+			Scanner s= new Scanner(file_spam);
+
+			try{
+				while(s.hasNextLine()){
+					String line=s.nextLine();
+					String[] tokens = line.split("	");
+					String mail = tokens[0];
+					ArrayList <String> array_aux_ham_NEG = new ArrayList<>();
+
+
+					for(int i = 1; i<tokens.length; i++){
+
+						array_aux_ham_NEG.add(tokens[i]);
+
+					}
+					hash_ham_NEG.put(tokens[0], array_aux_ham_NEG);
+
+				}
+			}finally{
+				s.close();
+			}
+		}catch(FileNotFoundException e1){
+			e1.printStackTrace();
+		}
+
+		//est· proxima linha serve de teste do hashmap. È impresso na consola o valor da terceira key do hashmap
+		//System.out.println(hash_ham.get("xval_initial/9/_ham_/00286.74f122eeb4cd901867d74f5676c85809"));
+
+		//A partir daqui È para percorrer a tabela, ver as regras que coicidem e somar os respectivos pesos.
+
+		int fn = 0;
+		for (String key : hash_ham_NEG.keySet()) {   //iterar os emails
+
+			double sum_pesos_da_key = 0.0;
+			ArrayList <String> array_aux_ham_NEG_2 = new ArrayList<>();
+			array_aux_ham_NEG_2=hash_ham_NEG.get(key);
+
+			for(String regra_da_key : array_aux_ham_NEG_2){  //iterar as regras de cada email
+
+				for(Table_object valor : modelo_tabela.getObjectos()){  //iterar a lista total de regras
+					if(regra_da_key.equals(valor.getRegra())){
+						sum_pesos_da_key= sum_pesos_da_key + valor.getValor();
+					}
+				}
+			}
+
+			if(sum_pesos_da_key<5) {
+
+				fn++;
+			}
+
+		}
+		System.out.println("FALSOS NEGATIVOS:  "+ fn);
+		
+		FN.setText(""+ fn);
+	}
+	
 	public static void main(String[] args) {
 		Interface grid = new Interface();
 		grid.open();
