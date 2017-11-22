@@ -403,7 +403,6 @@ public class Interface {
 		}
 		return index;
 	}
-	
 	public static void main(String[] args) {
 		Interface grid = new Interface();
 		grid.open();
