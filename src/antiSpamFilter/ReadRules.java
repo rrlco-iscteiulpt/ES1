@@ -19,6 +19,11 @@ import java.util.Scanner;
 				try{
 					while(s.hasNextLine()){
 						String line=s.nextLine();
+						String[] tokens = line.split("	");
+						if(line.contains(":")){
+							line=line.split(":")[0];
+						}
+					
 						rules.add(new Table_object(line));
 					}
 				}finally{
@@ -27,7 +32,7 @@ import java.util.Scanner;
 			}catch(FileNotFoundException e){
 				e.printStackTrace();
 			}
-			System.out.println(rules);
+			//System.out.println(rules);
 			return rules;
 		}
 		
