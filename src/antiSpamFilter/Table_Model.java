@@ -58,7 +58,7 @@ public class Table_Model extends AbstractTableModel{
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
 		super.setValueAt(aValue, rowIndex, columnIndex);
-		objectos.get(rowIndex).setValor(Integer.parseInt(aValue.toString()));
+		objectos.get(rowIndex).setValor(Double.parseDouble(aValue.toString()));
 		fireTableDataChanged();
 	}
 
