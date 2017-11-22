@@ -368,6 +368,42 @@ public class Interface {
 		FN.setText(""+ fn);
 	}
 	
+	public void open() {
+		frame.setVisible(true);
+	}
+
+	public static int lerAntiSpamRF(){
+		int index=0;
+		double lowestvalue=-5.0;  //alterei de -5.0 para 0 :RC
+		
+		try{
+			File f= new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rf");
+			Scanner s= new Scanner(f);
+			int i=0;
+			
+			try{
+				while(s.hasNextLine()){
+					String line=s.nextLine();
+					String[] tokens=line.split(" ");
+					String FPstring= tokens[0];
+					String FNstring= tokens[1];
+					double FP= Double.valueOf(FPstring);
+					double FN= Double.valueOf(FNstring);
+					if(lowestvalue<FP){
+						lowestvalue=FP;
+						index=i;
+					}
+					i++;
+				}
+			}finally{
+				s.close();
+			}
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		return index;
+	}
+	
 	public static void main(String[] args) {
 		Interface grid = new Interface();
 		grid.open();
