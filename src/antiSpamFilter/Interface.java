@@ -184,7 +184,7 @@ public class Interface {
 
 				try {
 					AntiSpamFilterAutomaticConfiguration.main(null);
-					
+					writeFPFN();
 					String[] tokens=lerAntimSpamRS();
 					int t=0;
 					for(Table_object valor : modelo_tabela_AUTO.getObjectos()){
@@ -390,19 +390,33 @@ public class Interface {
 	
 	public void writeFPFN(){
 		
-		Table_Model tableAux= new Table_Model();
-		for(Table_object obj : lista_regras){
-			tableAux.add_regras(obj);
-		}
 		try{
-		String[] tokens=lerRS();
-		for(int i=0;i<tokens.length;i=i+335){
-			int t=i;
-		
-			for(Table_object valor : tableAux.getObjectos()){
-				valor.setValor(Double.valueOf(tokens[t]));
-				t++;	
-			}}
+
+			Table_Model tableAux= new Table_Model();
+			for(Table_object obj : lista_regras){
+				tableAux.add_regras(obj);
+			}
+
+			String[] tokens=lerRS();
+			PrintWriter pw = new PrintWriter("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rf");
+
+			for(int i=0;i<tokens.length;i=i+335){
+				int t=i;
+
+				for(Table_object valor : tableAux.getObjectos()){
+					valor.setValor(Double.valueOf(tokens[t]));
+					t++;	
+				}
+
+				int fp=calcFP(tableAux, FP_AUTO);
+				int fn=calcFN(tableAux, FN_AUTO);
+
+
+				pw.println(fp+" "+fn);
+				System.out.println( "teste" + fp+" "+fn);
+
+			}
+			pw.close();
 		}catch(FileNotFoundException e){
 			e.printStackTrace();
 		}
