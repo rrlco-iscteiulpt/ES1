@@ -25,14 +25,17 @@ public class Interface {
 	private ArrayList <Table_object> lista_regras;
 	private JTable tabela;
 	private JFrame frame;
-	private Table_Model modelo_tabela;
-	private Table_Model modelo_tabela2;
-	private JButton evaluate;
-	private JButton save;
-	private JTextField FN;
-	private JTextField FP;
-	private JTextField FN2;
-	private JTextField FP2;
+	private Table_Model modelo_tabela_MAN;
+	private Table_Model modelo_tabela_AUTO;
+	private JButton evaluateMAN;
+	private JButton saveMAN;
+	private JButton evaluateAUTO;
+	private JButton saveAUTO;
+	
+	private JTextField FN_MAN;
+	private JTextField FP_MAN;
+	private JTextField FN_AUTO;
+	private JTextField FP_AUTO;
 	
  
 	private ArrayList<Double> valores_pesos = new ArrayList<>();
@@ -61,47 +64,47 @@ public class Interface {
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new GridLayout(1, 2));
 
-		modelo_tabela = new Table_Model();
+		modelo_tabela_MAN = new Table_Model();
 
 		for(Table_object obj : lista_regras){
-			modelo_tabela.add_regras(obj);
+			modelo_tabela_MAN.add_regras(obj);
 		}
 
 
-		tabela = new JTable(modelo_tabela);
+		tabela = new JTable(modelo_tabela_MAN);
 		JScrollPane scroll_tabela = new JScrollPane (tabela);
 		listPanel.add(scroll_tabela, BorderLayout.CENTER);
 
 		//Text field
 		JPanel NEG = new JPanel(new BorderLayout());
-		JLabel FN_ = new JLabel("Falsos Negativos");
-		FN = new JTextField();
-		NEG.add(FN_, BorderLayout.WEST);
-		NEG.add(FN, BorderLayout.CENTER);
-		FN.setEditable(false);
+		JLabel FN_1 = new JLabel("Falsos Negativos");
+		FN_MAN = new JTextField();
+		NEG.add(FN_1, BorderLayout.WEST);
+		NEG.add(FN_MAN, BorderLayout.CENTER);
+		FN_MAN.setEditable(false);
 		
 		JPanel POS = new JPanel(new BorderLayout());
-		JLabel FP_ = new JLabel("Falsos Positivos");
-		FP = new JTextField();
-		POS.add(FP_, BorderLayout.WEST);
-		POS.add(FP, BorderLayout.CENTER);
-		FP.setEditable(false);
+		JLabel FP = new JLabel("Falsos Positivos");
+		FP_MAN = new JTextField();
+		POS.add(FP, BorderLayout.WEST);
+		POS.add(FP_MAN, BorderLayout.CENTER);
+		FP_MAN.setEditable(false);
 		
 		//Buttons
 		JPanel buttonPanel = new JPanel(new GridLayout(2,2));
-		evaluate = new JButton("Avaliar configuração");
+		evaluateMAN = new JButton("Avaliar configuração Manual");
 
-		evaluate.addActionListener(new ActionListener() {
+		evaluateMAN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				calcFP();
-				calcFN();
+				calcFP(modelo_tabela_MAN, FP_MAN);
+				calcFN(modelo_tabela_MAN, FN_MAN);
 			}
 		});
 
-		save = new JButton("Gravar configuração manual");
+		saveMAN = new JButton("Gravar configuração Manual");
 
-		save.addActionListener(new ActionListener() {
+		saveMAN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -109,7 +112,7 @@ public class Interface {
 
 				ArrayList <String> lista_para_escrever_no_ficheiro = new ArrayList<>();
 				String s = new String();
-				for(Table_object valor : modelo_tabela.getObjectos()){
+				for(Table_object valor : modelo_tabela_MAN.getObjectos()){
 					valores_pesos.add(valor.getValor());
 					s = valor.getRegra() + ":" + valor.getValor();
 					lista_para_escrever_no_ficheiro.add(s);
@@ -131,8 +134,8 @@ public class Interface {
 		});
 
 		
-		buttonPanel.add(evaluate);
-		buttonPanel.add(save);
+		buttonPanel.add(evaluateMAN);
+		buttonPanel.add(saveMAN);
 		buttonPanel.add(NEG);
 		buttonPanel.add(POS);
 		
@@ -146,36 +149,36 @@ public class Interface {
 		JPanel listAUTOPanel = new JPanel();
 		listAUTOPanel.setLayout(new GridLayout(1, 2));
 
-		modelo_tabela2 = new Table_Model();
+		modelo_tabela_AUTO = new Table_Model();
 
 		for(Table_object obj : lista_regras){
-			modelo_tabela2.add_regras(obj);
+			modelo_tabela_AUTO.add_regras(obj);
 		}
 
-		tabela = new JTable(modelo_tabela2);
+		tabela = new JTable(modelo_tabela_AUTO);
 		JScrollPane scroll_tabela2 = new JScrollPane (tabela);
 		listAUTOPanel.add(scroll_tabela2, BorderLayout.WEST);
 
 		//Text field
 				JPanel NEG2 = new JPanel(new BorderLayout());
 				JLabel FN_2 = new JLabel("Falsos Negativos");
-				FN2 = new JTextField();
+				FN_AUTO = new JTextField();
 				NEG2.add(FN_2, BorderLayout.WEST);
-				NEG2.add(FN2, BorderLayout.CENTER);
-				FN2.setEditable(false);
+				NEG2.add(FN_AUTO, BorderLayout.CENTER);
+				FN_AUTO.setEditable(false);
 				
 				JPanel POS2 = new JPanel(new BorderLayout());
 				JLabel FP_2 = new JLabel("Falsos Positivos");
-				FP2 = new JTextField();
+				FP_AUTO = new JTextField();
 				POS2.add(FP_2, BorderLayout.WEST);
-				POS2.add(FP2, BorderLayout.CENTER);
-				FP2.setEditable(false);
+				POS2.add(FP_AUTO, BorderLayout.CENTER);
+				FP_AUTO.setEditable(false);
 				
 		//Buttons
 		JPanel buttonAUTOPanel = new JPanel(new GridLayout(2,2));
-		evaluate = new JButton("Gerar configuração automática");
+		evaluateAUTO = new JButton("Gerar configuração automática");
 
-		evaluate.addActionListener(new ActionListener() {
+		evaluateAUTO.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -183,7 +186,7 @@ public class Interface {
 					AntiSpamFilterAutomaticConfiguration.main(null);
 					String[] tokens=lerAntimSpamRS();
 					int t=0;
-					for(Table_object valor : modelo_tabela2.getObjectos()){
+					for(Table_object valor : modelo_tabela_AUTO.getObjectos()){
 						valor.setValor(Double.valueOf(tokens[t]));
 						t++;
 						
@@ -194,19 +197,22 @@ public class Interface {
 				e1.printStackTrace();
 						
 				}
+				
+				calcFN(modelo_tabela_AUTO, FN_AUTO);
+				calcFP(modelo_tabela_AUTO, FP_AUTO);
 			}
 		});
 
-		save = new JButton("Gravar configuração automática");
+		saveAUTO = new JButton("Gravar configuração Automática");
 
-		save.addActionListener(new ActionListener() {
+		saveAUTO.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
 
 				ArrayList <String> lista_para_escrever_no_ficheiro = new ArrayList<>();
 				String s = new String();
-				for(Table_object valor : modelo_tabela.getObjectos()){
+				for(Table_object valor : modelo_tabela_AUTO.getObjectos()){
 					valores_pesos.add(valor.getValor());
 					s = valor.getRegra() + ":" + valor.getValor();
 					lista_para_escrever_no_ficheiro.add(s);
@@ -227,8 +233,8 @@ public class Interface {
 			}
 		});
 
-		buttonAUTOPanel.add(evaluate);
-		buttonAUTOPanel.add(save);
+		buttonAUTOPanel.add(evaluateAUTO);
+		buttonAUTOPanel.add(saveAUTO);
 		buttonAUTOPanel.add(NEG2);
 		buttonAUTOPanel.add(POS2);
 		listAUTOPanel.add(buttonAUTOPanel, BorderLayout.EAST);
@@ -238,7 +244,7 @@ public class Interface {
 
 	}
 
-	public void calcFP(){	//FALSOS POSITIVOS
+	public void calcFP(Table_Model tabela_a_ler, JTextField caixa_de_texto2){	//FALSOS POSITIVOS
 
 		hash_ham = new HashMap<String, ArrayList>();
 
@@ -270,10 +276,10 @@ public class Interface {
 			e1.printStackTrace();
 		}
 
-		//est· proxima linha serve de teste do hashmap. È impresso na consola o valor da terceira key do hashmap
+		//est¬∑ proxima linha serve de teste do hashmap. √à impresso na consola o valor da terceira key do hashmap
 		//System.out.println(hash_ham.get("xval_initial/9/_ham_/00286.74f122eeb4cd901867d74f5676c85809"));
 
-		//A partir daqui È para percorrer a tabela, ver as regras que coicidem e somar os respectivos pesos.
+		//A partir daqui √à para percorrer a tabela, ver as regras que coicidem e somar os respectivos pesos.
 
 		int fp = 0;
 		for (String key : hash_ham.keySet()) {   //iterar os emails
@@ -285,7 +291,7 @@ public class Interface {
 
 			for(String regra_da_key : array_aux_ham_2){  //iterar as regras de cada email
 
-				for(Table_object valor : modelo_tabela.getObjectos()){  //iterar a lista total de regras
+				for(Table_object valor : tabela_a_ler.getObjectos()){  //iterar a lista total de regras
 					if(regra_da_key.equals(valor.getRegra())){
 						sumatorio_pesos_da_key= sumatorio_pesos_da_key + valor.getValor();
 
@@ -302,11 +308,11 @@ public class Interface {
 		}
 		System.out.println("FALSOS POSITIVOS:  "+ fp);
 
-		FP.setText(""+ fp);
+		caixa_de_texto2.setText(""+ fp);
 
 	}
 	
-	public void calcFN(){	//FALSOS NEGATIVOS
+	public void calcFN(Table_Model tabela_a_ler, JTextField caixa_de_texto){	//FALSOS NEGATIVOS
 		hash_ham_NEG = new HashMap<String, ArrayList>();
 
 		try{
@@ -336,10 +342,10 @@ public class Interface {
 			e1.printStackTrace();
 		}
 
-		//est· proxima linha serve de teste do hashmap. È impresso na consola o valor da terceira key do hashmap
+		//est¬∑ proxima linha serve de teste do hashmap. √à impresso na consola o valor da terceira key do hashmap
 		//System.out.println(hash_ham.get("xval_initial/9/_ham_/00286.74f122eeb4cd901867d74f5676c85809"));
 
-		//A partir daqui È para percorrer a tabela, ver as regras que coicidem e somar os respectivos pesos.
+		//A partir daqui √à para percorrer a tabela, ver as regras que coicidem e somar os respectivos pesos.
 
 		int fn = 0;
 		for (String key : hash_ham_NEG.keySet()) {   //iterar os emails
@@ -350,7 +356,7 @@ public class Interface {
 
 			for(String regra_da_key : array_aux_ham_NEG_2){  //iterar as regras de cada email
 
-				for(Table_object valor : modelo_tabela.getObjectos()){  //iterar a lista total de regras
+				for(Table_object valor : tabela_a_ler.getObjectos()){  //iterar a lista total de regras
 					if(regra_da_key.equals(valor.getRegra())){
 						sum_pesos_da_key= sum_pesos_da_key + valor.getValor();
 					}
@@ -365,7 +371,7 @@ public class Interface {
 		}
 		System.out.println("FALSOS NEGATIVOS:  "+ fn);
 		
-		FN.setText(""+ fn);
+		caixa_de_texto.setText(""+ fn);
 	}
 	
 	public void open() {
