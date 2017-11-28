@@ -31,13 +31,13 @@ public class Interface {
 	private JButton saveMAN;
 	private JButton evaluateAUTO;
 	private JButton saveAUTO;
-	
+
 	private JTextField FN_MAN;
 	private JTextField FP_MAN;
 	private JTextField FN_AUTO;
 	private JTextField FP_AUTO;
-	
- 
+
+
 	private ArrayList<Double> valores_pesos = new ArrayList<>();
 
 
@@ -82,14 +82,14 @@ public class Interface {
 		NEG.add(FN_1, BorderLayout.WEST);
 		NEG.add(FN_MAN, BorderLayout.CENTER);
 		FN_MAN.setEditable(false);
-		
+
 		JPanel POS = new JPanel(new BorderLayout());
 		JLabel FP = new JLabel("Falsos Positivos");
 		FP_MAN = new JTextField();
 		POS.add(FP, BorderLayout.WEST);
 		POS.add(FP_MAN, BorderLayout.CENTER);
 		FP_MAN.setEditable(false);
-		
+
 		//Buttons
 		JPanel buttonPanel = new JPanel(new GridLayout(2,2));
 		evaluateMAN = new JButton("Avaliar configuração Manual");
@@ -133,12 +133,12 @@ public class Interface {
 			}
 		});
 
-		
+
 		buttonPanel.add(evaluateMAN);
 		buttonPanel.add(saveMAN);
 		buttonPanel.add(NEG);
 		buttonPanel.add(POS);
-		
+
 		listPanel.add(buttonPanel);
 
 
@@ -160,20 +160,20 @@ public class Interface {
 		listAUTOPanel.add(scroll_tabela2, BorderLayout.WEST);
 
 		//Text field
-				JPanel NEG2 = new JPanel(new BorderLayout());
-				JLabel FN_2 = new JLabel("Falsos Negativos");
-				FN_AUTO = new JTextField();
-				NEG2.add(FN_2, BorderLayout.WEST);
-				NEG2.add(FN_AUTO, BorderLayout.CENTER);
-				FN_AUTO.setEditable(false);
-				
-				JPanel POS2 = new JPanel(new BorderLayout());
-				JLabel FP_2 = new JLabel("Falsos Positivos");
-				FP_AUTO = new JTextField();
-				POS2.add(FP_2, BorderLayout.WEST);
-				POS2.add(FP_AUTO, BorderLayout.CENTER);
-				FP_AUTO.setEditable(false);
-				
+		JPanel NEG2 = new JPanel(new BorderLayout());
+		JLabel FN_2 = new JLabel("Falsos Negativos");
+		FN_AUTO = new JTextField();
+		NEG2.add(FN_2, BorderLayout.WEST);
+		NEG2.add(FN_AUTO, BorderLayout.CENTER);
+		FN_AUTO.setEditable(false);
+
+		JPanel POS2 = new JPanel(new BorderLayout());
+		JLabel FP_2 = new JLabel("Falsos Positivos");
+		FP_AUTO = new JTextField();
+		POS2.add(FP_2, BorderLayout.WEST);
+		POS2.add(FP_AUTO, BorderLayout.CENTER);
+		FP_AUTO.setEditable(false);
+
 		//Buttons
 		JPanel buttonAUTOPanel = new JPanel(new GridLayout(2,2));
 		evaluateAUTO = new JButton("Gerar configuração automática");
@@ -184,26 +184,28 @@ public class Interface {
 
 				try {
 					AntiSpamFilterAutomaticConfiguration.main(null);
+					
 					String[] tokens=lerAntimSpamRS();
 					int t=0;
 					for(Table_object valor : modelo_tabela_AUTO.getObjectos()){
 						valor.setValor(Double.valueOf(tokens[t]));
 						t++;
-						
+
 					}
 					listAUTOPanel.repaint();
 				} catch (IOException e1) {
-					
-				e1.printStackTrace();
-						
+
+					e1.printStackTrace();
+
 				}
-				
+
 				calcFN(modelo_tabela_AUTO, FN_AUTO);
 				calcFP(modelo_tabela_AUTO, FP_AUTO);
+				
 			}
 		});
 
-		saveAUTO = new JButton("Gravar configuração Automática");
+		saveAUTO = new JButton("Gravar configura��o Autom�tica");
 
 		saveAUTO.addActionListener(new ActionListener() {
 			@Override
@@ -244,7 +246,7 @@ public class Interface {
 
 	}
 
-	public void calcFP(Table_Model tabela_a_ler, JTextField caixa_de_texto2){	//FALSOS POSITIVOS
+	public int calcFP(Table_Model tabela_a_ler, JTextField caixa_de_texto2){	//FALSOS POSITIVOS
 
 		hash_ham = new HashMap<String, ArrayList>();
 
@@ -309,10 +311,10 @@ public class Interface {
 		System.out.println("FALSOS POSITIVOS:  "+ fp);
 
 		caixa_de_texto2.setText(""+ fp);
-
+		return fp;
 	}
-	
-	public void calcFN(Table_Model tabela_a_ler, JTextField caixa_de_texto){	//FALSOS NEGATIVOS
+
+	public int calcFN(Table_Model tabela_a_ler, JTextField caixa_de_texto){	//FALSOS NEGATIVOS
 		hash_ham_NEG = new HashMap<String, ArrayList>();
 
 		try{
@@ -370,34 +372,70 @@ public class Interface {
 
 		}
 		System.out.println("FALSOS NEGATIVOS:  "+ fn);
-		
+
 		caixa_de_texto.setText(""+ fn);
+		return fn;
+	}
+
+	public String[] lerRS() throws FileNotFoundException{
+
+			File f= new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs");
+			Scanner s= new Scanner(f);
+			String line ="";
+       		while(s.hasNextLine()){
+			line+=s.nextLine();
+       		}
+       		return line.split(" ");
 	}
 	
+	public void writeFPFN(){
+		
+		Table_Model tableAux= new Table_Model();
+		for(Table_object obj : lista_regras){
+			tableAux.add_regras(obj);
+		}
+		try{
+		String[] tokens=lerRS();
+		for(int i=0;i<tokens.length;i=i+335){
+			int t=i;
+		
+			for(Table_object valor : tableAux.getObjectos()){
+				valor.setValor(Double.valueOf(tokens[t]));
+				t++;	
+			}}
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+			
+	}
+
 	public void open() {
 		frame.setVisible(true);
 	}
 
 	public static int lerAntiSpamRF(){
 		int index=0;
-		double lowestvalue=-5.0;  //alterei de -5.0 para 0 :RC
-		
+		int lowestvalue=600;  //alterei de -5.0 para 0 :RC
+
 		try{
 			File f= new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rf");
 			Scanner s= new Scanner(f);
 			int i=0;
-			
+
 			try{
 				while(s.hasNextLine()){
 					String line=s.nextLine();
 					String[] tokens=line.split(" ");
 					String FPstring= tokens[0];
 					String FNstring= tokens[1];
-					double FP= Double.valueOf(FPstring);
-					double FN= Double.valueOf(FNstring);
-					if(lowestvalue<FP){
+					int FP= Integer.parseInt(FPstring);
+					int FN= Integer.parseInt(FNstring);
+					if(lowestvalue>FP){
 						lowestvalue=FP;
-						index=i;
+						index=i+1;
+					}
+					if(lowestvalue<FP){
+						lowestvalue=lowestvalue;
 					}
 					i++;
 				}
@@ -409,23 +447,25 @@ public class Interface {
 		}
 		return index;
 	}
-	
+
 
 	public String[] lerAntimSpamRS(){
 		String[] tokens=null;
+		
 		try{
 			File f= new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs");
 			Scanner s= new Scanner(f);
 			String line=null;
-			
+
 			try{
-				
+
 				for(int i=0; i<lerAntiSpamRF(); i++){
 					line=s.nextLine();
 				}
+
 				System.out.println(line);
 				tokens=line.split(" ");
-					
+
 			}finally{
 				s.close();
 			}
@@ -433,6 +473,7 @@ public class Interface {
 			e.printStackTrace();
 		}
 		return tokens;
+
 	}
 
 	public static void main(String[] args) {
