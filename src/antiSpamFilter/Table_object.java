@@ -1,25 +1,44 @@
 package antiSpamFilter;
 
+/**
+ * 
+ * @author João Martins, João Teixeira, Mariana Barros, Rodrigo Cortesão.
+ * 			65217			64750				65297			64822
+ *
+ */
+
 public class Table_object {
-	
-	private String regra;
-	private double valor;
-	
+
+	private String rule;
+	private double value;
+
 	public Table_object (String regra){
-		this.regra = regra;
-		valor = 0;
+		this.rule = regra;
+		value = 0;
 	}
 
-	public double getValor() {
-		return valor;
+	/**
+	 * Função para obter um valor de um objeto da tabela
+	 * @return o valor do objeto
+	 */
+	public double getValue() {
+		return value;
 	}
 
+	/**
+	 * Função para pôr um certo valor associado a um objeto da tabela
+	 * @param valor
+	 */
 	public void setValor(double valor) {
-		this.valor = valor;
+		this.value = valor;
 	}
 
-	public String getRegra() {
-		return regra;
+	/**
+	 * Função para obter uma regra
+	 * @return a regra
+	 */
+	public String getRule() {
+		return rule;
 	}
 
 }
