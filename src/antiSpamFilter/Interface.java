@@ -20,124 +20,167 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+/**
+ * 
+ * @author João Martins, João Teixeira, Mariana Barros, Rodrigo Cortesão.
+ * 			65217			64750				65297			64822
+ *
+ */
 public class Interface {
 
-	private ArrayList <Table_object> lista_regras;
-	private JTable tabela;
-	private JFrame frame;
-	private Table_Model modelo_tabela_MAN;
-	private Table_Model modelo_tabela_AUTO;
-	private JButton evaluateMAN;
-	private JButton saveMAN;
-	private JButton evaluateAUTO;
-	private JButton saveAUTO;
+	private ArrayList <Table_object> rulesListManual = new ArrayList<Table_object>();
+	private ArrayList <Table_object> rulesListAuto = new ArrayList<Table_object>();
+	public JFrame frame = new JFrame("Filtro Anti-SPAM");
+	public JFrame paths = new JFrame("Escolha de paths");
+	public Table_Model tableModel_MAN  = new Table_Model();
+	public Table_Model tableModel_AUTO = new Table_Model();
+	private JTable tableManual = new JTable(tableModel_MAN);
+	private JTable tableAuto =  new JTable(tableModel_AUTO);
+	public JButton evaluateMAN = new JButton("Avaliar configuração Manual");
+	public JButton saveMAN = new JButton("Gravar configuração Manual");
+	public JButton evaluateAUTO = new JButton("Gerar configuração automática");
+	public JButton saveAUTO = new JButton("Gravar configuração Automática");
+	public JButton fechar = new JButton("Fechar janela");
 
-	private JTextField FN_MAN;
-	private JTextField FP_MAN;
-	private JTextField FN_AUTO;
-	private JTextField FP_AUTO;
+	public JTextField spamField = new JTextField(10);
+	public JTextField rulesField = new JTextField(10);
+	public JTextField hamField = new JTextField(10);
+	private String spamFile=null;
+	private String hamFile=null;
+	private String rulesFile=null; 
 
+	private JTextField manualFN = new JTextField();
+	private JTextField manualFP = new JTextField();
+	private JTextField autoFN = new JTextField();
+	private JTextField autoFP = new JTextField();
 
-	private ArrayList<Double> valores_pesos = new ArrayList<>();
+	private JPanel listAUTOPanel = new JPanel();
 
+	private ArrayList<Double> weightValues = new ArrayList<>();
 
-	private HashMap<String, ArrayList> hash_ham;
-	private HashMap<String, ArrayList> hash_ham_NEG;
+	private HashMap<String, ArrayList> hash_ham = new HashMap<String, ArrayList>();
+	private HashMap<String, ArrayList> 	hash_ham_NEG = new HashMap<String, ArrayList>();
 
 	public Interface() {
-		lista_regras = ReadRules.lerRules();
+
 		addFrameContent();
 	}
 
+	/**
+	 * Constrói a janela.
+	 * Cria e adiciona à primeira Frame todos os seus elementos relacionados com a escolha dos ficheiros
+	 */
+
 	private void addFrameContent() {
 
-		frame = new JFrame("Filtro Anti-SPAM");
+		//------------------------------PATHS------------------------------------
+		paths.setLocation(100,25);
+		paths.setSize(300, 200);
+		paths.setLayout(new GridLayout(4,1));
+		paths.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+		JPanel panelRules = new JPanel();
+
+
+		fechar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				hamFile = hamField.getText();
+				spamFile = spamField.getText();
+				rulesFile = rulesField.getText();
+				paths.dispose();
+				open2();
+			}
+		});
+
+
+
+		JLabel rulesLabel = new JLabel("Ficheiro das regras");
+		panelRules.add(rulesLabel, BorderLayout.WEST);
+		panelRules.add(rulesField);
+
+		paths.add(panelRules);
+
+		JPanel panelSpam = new JPanel();
+		JLabel spamLabel = new JLabel ("Ficheiro do Spam");
+		panelSpam.add(spamLabel, BorderLayout.WEST);
+		panelSpam.add(spamField, BorderLayout.CENTER);
+
+		paths.add(panelSpam);
+
+		JPanel panelHam = new JPanel();
+		JLabel hamLabel = new JLabel ("Ficheiro do Ham");
+		panelHam.add(hamLabel, BorderLayout.WEST);
+		panelHam.add(hamField, BorderLayout.CENTER);
+
+		paths.add(panelHam);
+		paths.add(fechar);
+
+
+
+	}
+
+
+	/**
+	 * Cria e adiciona à segunda Frame todos os seus elementos relacionados com as regras e pesos da parte Manual e autom·tica
+	 */
+	private void addFrameContent2() {
+		//-------------------------------------------------------------------------------------
+
 		frame.setLocation(100,25);
 		frame.setSize(900, 650);
 		frame.setLayout(new GridLayout(2,2));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
 
 		//------------------ MANUAL PANEL ----------------------
 		//Lista
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new GridLayout(1, 2));
 
-		modelo_tabela_MAN = new Table_Model();
-
-		for(Table_object obj : lista_regras){
-			modelo_tabela_MAN.add_regras(obj);
+		for(Table_object obj : rulesListManual){
+			tableModel_MAN.add_regras(obj);
 		}
 
-
-		tabela = new JTable(modelo_tabela_MAN);
-		JScrollPane scroll_tabela = new JScrollPane (tabela);
+		JScrollPane scroll_tabela = new JScrollPane (tableManual);
 		listPanel.add(scroll_tabela, BorderLayout.CENTER);
 
 		//Text field
-		JPanel NEG = new JPanel(new BorderLayout());
-		JLabel FN_1 = new JLabel("Falsos Negativos");
-		FN_MAN = new JTextField();
-		NEG.add(FN_1, BorderLayout.WEST);
-		NEG.add(FN_MAN, BorderLayout.CENTER);
-		FN_MAN.setEditable(false);
+		JPanel panelNeg = new JPanel(new BorderLayout());
+		JLabel manFN_label = new JLabel("Falsos Negativos");
+		panelNeg.add(manFN_label, BorderLayout.WEST);
+		panelNeg.add(manualFN, BorderLayout.CENTER);
+		manualFN.setEditable(false);
 
-		JPanel POS = new JPanel(new BorderLayout());
-		JLabel FP = new JLabel("Falsos Positivos");
-		FP_MAN = new JTextField();
-		POS.add(FP, BorderLayout.WEST);
-		POS.add(FP_MAN, BorderLayout.CENTER);
-		FP_MAN.setEditable(false);
+		JPanel panelPos = new JPanel(new BorderLayout());
+		JLabel manFP_label = new JLabel("Falsos Positivos");
+		panelPos.add(manFP_label, BorderLayout.WEST);
+		panelPos.add(manualFP, BorderLayout.CENTER);
+		manualFP.setEditable(false);
 
 		//Buttons
 		JPanel buttonPanel = new JPanel(new GridLayout(2,2));
-		evaluateMAN = new JButton("Avaliar configuração Manual");
 
 		evaluateMAN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				calcFP(modelo_tabela_MAN, FP_MAN);
-				calcFN(modelo_tabela_MAN, FN_MAN);
+				evaluateMAN();
 			}
 		});
-
-		saveMAN = new JButton("Gravar configuração Manual");
 
 		saveMAN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-
-
-				ArrayList <String> lista_para_escrever_no_ficheiro = new ArrayList<>();
-				String s = new String();
-				for(Table_object valor : modelo_tabela_MAN.getObjectos()){
-					valores_pesos.add(valor.getValor());
-					s = valor.getRegra() + ":" + valor.getValor();
-					lista_para_escrever_no_ficheiro.add(s);
-
-				}
-				try {
-					PrintWriter pw = new PrintWriter("rules.cf");
-					for(String sss : lista_para_escrever_no_ficheiro){
-						pw.println(sss);
-					}
-					pw.close();
-
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				System.out.println(lista_para_escrever_no_ficheiro);
-				lista_para_escrever_no_ficheiro.clear();
+				saveMAN();
 			}
 		});
 
 
 		buttonPanel.add(evaluateMAN);
 		buttonPanel.add(saveMAN);
-		buttonPanel.add(NEG);
-		buttonPanel.add(POS);
+		buttonPanel.add(panelNeg);
+		buttonPanel.add(panelPos);
 
 		listPanel.add(buttonPanel);
 
@@ -146,99 +189,51 @@ public class Interface {
 
 		//------------------ AUTO PANEL-------------------
 		//Lista
-		JPanel listAUTOPanel = new JPanel();
 		listAUTOPanel.setLayout(new GridLayout(1, 2));
 
-		modelo_tabela_AUTO = new Table_Model();
 
-		for(Table_object obj : lista_regras){
-			modelo_tabela_AUTO.add_regras(obj);
+		for(Table_object obj : rulesListAuto){
+			tableModel_AUTO.add_regras(obj);
 		}
 
-		tabela = new JTable(modelo_tabela_AUTO);
-		JScrollPane scroll_tabela2 = new JScrollPane (tabela);
+		tableAuto = new JTable(tableModel_AUTO);
+		JScrollPane scroll_tabela2 = new JScrollPane (tableAuto);
 		listAUTOPanel.add(scroll_tabela2, BorderLayout.WEST);
 
 		//Text field
-		JPanel NEG2 = new JPanel(new BorderLayout());
-		JLabel FN_2 = new JLabel("Falsos Negativos");
-		FN_AUTO = new JTextField();
-		NEG2.add(FN_2, BorderLayout.WEST);
-		NEG2.add(FN_AUTO, BorderLayout.CENTER);
-		FN_AUTO.setEditable(false);
+		JPanel auto_neg_panel = new JPanel(new BorderLayout());
+		JLabel autoFN_label = new JLabel("Falsos Negativos");
+		auto_neg_panel.add(autoFN_label, BorderLayout.WEST);
+		auto_neg_panel.add(autoFN, BorderLayout.CENTER);
+		autoFN.setEditable(false);
 
-		JPanel POS2 = new JPanel(new BorderLayout());
-		JLabel FP_2 = new JLabel("Falsos Positivos");
-		FP_AUTO = new JTextField();
-		POS2.add(FP_2, BorderLayout.WEST);
-		POS2.add(FP_AUTO, BorderLayout.CENTER);
-		FP_AUTO.setEditable(false);
+		JPanel auto_pos_panel = new JPanel(new BorderLayout());
+		JLabel autoFP_label = new JLabel("Falsos Positivos");
+		auto_pos_panel.add(autoFP_label, BorderLayout.WEST);
+		auto_pos_panel.add(autoFP, BorderLayout.CENTER);
+		autoFP.setEditable(false);
 
 		//Buttons
 		JPanel buttonAUTOPanel = new JPanel(new GridLayout(2,2));
-		evaluateAUTO = new JButton("Gerar configuração automática");
 
 		evaluateAUTO.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				try {
-					AntiSpamFilterAutomaticConfiguration.main(null);
-					writeFPFN();
-					String[] tokens=lerAntimSpamRS();
-					int t=0;
-					for(Table_object valor : modelo_tabela_AUTO.getObjectos()){
-						valor.setValor(Double.valueOf(tokens[t]));
-						t++;
-
-					}
-					listAUTOPanel.repaint();
-				} catch (IOException e1) {
-
-					e1.printStackTrace();
-
-				}
-
-				calcFN(modelo_tabela_AUTO, FN_AUTO);
-				calcFP(modelo_tabela_AUTO, FP_AUTO);
-				
+				evaluateAUTO();
 			}
 		});
-
-		saveAUTO = new JButton("Gravar configura��o Autom�tica");
 
 		saveAUTO.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-
-				ArrayList <String> lista_para_escrever_no_ficheiro = new ArrayList<>();
-				String s = new String();
-				for(Table_object valor : modelo_tabela_AUTO.getObjectos()){
-					valores_pesos.add(valor.getValor());
-					s = valor.getRegra() + ":" + valor.getValor();
-					lista_para_escrever_no_ficheiro.add(s);
-
-				}
-				try {
-					PrintWriter pw = new PrintWriter("rules.cf");
-					for(String sss : lista_para_escrever_no_ficheiro){
-						pw.println(sss);
-					}
-					pw.close();
-
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				System.out.println(lista_para_escrever_no_ficheiro);
-				lista_para_escrever_no_ficheiro.clear();
+				saveAUTO();
 			}
 		});
 
 		buttonAUTOPanel.add(evaluateAUTO);
 		buttonAUTOPanel.add(saveAUTO);
-		buttonAUTOPanel.add(NEG2);
-		buttonAUTOPanel.add(POS2);
+		buttonAUTOPanel.add(auto_neg_panel);
+		buttonAUTOPanel.add(auto_pos_panel);
 		listAUTOPanel.add(buttonAUTOPanel, BorderLayout.EAST);
 
 
@@ -246,56 +241,59 @@ public class Interface {
 
 	}
 
-	public int calcFP(Table_Model tabela_a_ler, JTextField caixa_de_texto2){	//FALSOS POSITIVOS
+	/**
+	 * Fução que calcula o número de Falsos Positivos de um vector de pesos.
+	 * 
+	 * @param tableToRead Tabela à qual se irá buscar os pesos respetivos de cada regra
+	 * @param fieldToWrite  Caixa de Texto onde será inserido o valor calculado dos Falsos Positivos
+	 * @param file Ficheiro a ler
+	 * @return falsos positivos calculados
+	 */
 
-		hash_ham = new HashMap<String, ArrayList>();
+	public int calcFP(Table_Model tableToRead, JTextField fieldToWrite,String file){	//FALSOS POSITIVOS
 
 		try{
-			File file_ham= new File("ham.log");
+			File file_ham= new File(file);
 			Scanner scanner= new Scanner(file_ham);
+			while(scanner.hasNextLine()){
+				String line=scanner.nextLine();
+				String[] tokens = line.split("	");
+				String email = tokens[0];
+				ArrayList <String> array_aux_ham = new ArrayList<>();
 
-			try{
-				while(scanner.hasNextLine()){
-					String line=scanner.nextLine();
-					String[] partes = line.split("	");
-					String email = partes[0];
-					ArrayList <String> array_aux_ham = new ArrayList<>();
+				//System.out.println("EMAILLL" + email);
 
-					//System.out.println("EMAILLL" + email);
+				for(int i = 1; i<tokens.length; i++){
 
-					for(int i = 1; i<partes.length; i++){
-
-						array_aux_ham.add(partes[i]);
-
-					}
-					hash_ham.put(partes[0], array_aux_ham);
+					array_aux_ham.add(tokens[i]);
 
 				}
-			}finally{
-				scanner.close();
+				hash_ham.put(tokens[0], array_aux_ham);
+
 			}
+			scanner.close();
 		}catch(FileNotFoundException e1){
 			e1.printStackTrace();
 		}
 
-		//est¬∑ proxima linha serve de teste do hashmap. √à impresso na consola o valor da terceira key do hashmap
+		//est¬¨‚àë proxima linha serve de teste do hashmap. ‚àö√† impresso na consola o valor da terceira key do hashmap
 		//System.out.println(hash_ham.get("xval_initial/9/_ham_/00286.74f122eeb4cd901867d74f5676c85809"));
 
-		//A partir daqui √à para percorrer a tabela, ver as regras que coicidem e somar os respectivos pesos.
+		//A partir daqui ‚àö√† para percorrer a tabela, ver as regras que coicidem e somar os respectivos pesos.
 
 		int fp = 0;
 		for (String key : hash_ham.keySet()) {   //iterar os emails
 
-			double sumatorio_pesos_da_key = 0.0;
+			double keyWeightSum = 0.0;
 			ArrayList <String> array_aux_ham_2 = new ArrayList<>();
 			array_aux_ham_2=hash_ham.get(key);
 			//System.out.println(array_aux_ham_2);
 
-			for(String regra_da_key : array_aux_ham_2){  //iterar as regras de cada email
+			for(String keyRule : array_aux_ham_2){  //iterar as regras de cada email
 
-				for(Table_object valor : tabela_a_ler.getObjectos()){  //iterar a lista total de regras
-					if(regra_da_key.equals(valor.getRegra())){
-						sumatorio_pesos_da_key= sumatorio_pesos_da_key + valor.getValor();
+				for(Table_object value : tableToRead.getObjectos()){  //iterar a lista total de regras
+					if(keyRule.equals(value.getRule())){
+						keyWeightSum= keyWeightSum + value.getValue();
 
 					}
 
@@ -303,69 +301,73 @@ public class Interface {
 
 			}
 
-			if(sumatorio_pesos_da_key>5) {
+			if(keyWeightSum>5) {
 				fp++;
 			}
 
 		}
 		System.out.println("FALSOS POSITIVOS:  "+ fp);
 
-		caixa_de_texto2.setText(""+ fp);
+		fieldToWrite.setText(""+ fp);
 		return fp;
 	}
 
-	public int calcFN(Table_Model tabela_a_ler, JTextField caixa_de_texto){	//FALSOS NEGATIVOS
-		hash_ham_NEG = new HashMap<String, ArrayList>();
+	/**
+	 * Fução que calcula o número de Falsos Negativos de um vector de pesos.
+	 * 
+	 * @param tableToRead Tabela à qual se irá buscar os pesos respetivos de cada regra
+	 * @param fieldToWrite  Caixa de Texto onde ser· inserido o valor calculado dos Falsos negativos
+	 * @param file Ficheiro a ler
+	 * @return falsos negativos calculados
+	 */
+
+	public int calcFN(Table_Model tableToRead, JTextField fieldToWrite,String file){	//FALSOS NEGATIVOS
 
 		try{
-			File file_spam= new File("spam.log");
+			File file_spam= new File(file);
 			Scanner s= new Scanner(file_spam);
 
-			try{
-				while(s.hasNextLine()){
-					String line=s.nextLine();
-					String[] tokens = line.split("	");
-					String mail = tokens[0];
-					ArrayList <String> array_aux_ham_NEG = new ArrayList<>();
+
+			while(s.hasNextLine()){
+				String line=s.nextLine();
+				String[] tokens = line.split("	");
+				String mail = tokens[0];
+				ArrayList <String> array_aux_ham_NEG = new ArrayList<>();
 
 
-					for(int i = 1; i<tokens.length; i++){
+				for(int i = 1; i<tokens.length; i++){
 
-						array_aux_ham_NEG.add(tokens[i]);
-
-					}
-					hash_ham_NEG.put(tokens[0], array_aux_ham_NEG);
+					array_aux_ham_NEG.add(tokens[i]);
 
 				}
-			}finally{
-				s.close();
+				hash_ham_NEG.put(tokens[0], array_aux_ham_NEG);
+
 			}
+
+			s.close();
+
 		}catch(FileNotFoundException e1){
 			e1.printStackTrace();
 		}
 
-		//est¬∑ proxima linha serve de teste do hashmap. √à impresso na consola o valor da terceira key do hashmap
-		//System.out.println(hash_ham.get("xval_initial/9/_ham_/00286.74f122eeb4cd901867d74f5676c85809"));
-
-		//A partir daqui √à para percorrer a tabela, ver as regras que coicidem e somar os respectivos pesos.
 
 		int fn = 0;
 		for (String key : hash_ham_NEG.keySet()) {   //iterar os emails
 
-			double sum_pesos_da_key = 0.0;
+			double keyWeightSum = 0.0;
 			ArrayList <String> array_aux_ham_NEG_2 = new ArrayList<>();
 			array_aux_ham_NEG_2=hash_ham_NEG.get(key);
 
-			for(String regra_da_key : array_aux_ham_NEG_2){  //iterar as regras de cada email
+			for(String keyRule : array_aux_ham_NEG_2){  //iterar as regras de cada email
 
-				for(Table_object valor : tabela_a_ler.getObjectos()){  //iterar a lista total de regras
-					if(regra_da_key.equals(valor.getRegra())){
-						sum_pesos_da_key= sum_pesos_da_key + valor.getValor();
+				for(Table_object valor : tableToRead.getObjectos()){  //iterar a lista total de regras
+					if(keyRule.equals(valor.getRule())){
+						keyWeightSum= keyWeightSum + valor.getValue();
 					}
 				}
 			}
 
-			if(sum_pesos_da_key<5) {
+			if(keyWeightSum<5) {
 
 				fn++;
 			}
@@ -373,27 +375,38 @@ public class Interface {
 		}
 		System.out.println("FALSOS NEGATIVOS:  "+ fn);
 
-		caixa_de_texto.setText(""+ fn);
+		fieldToWrite.setText(""+ fn);
 		return fn;
 	}
 
+	/**
+	 * Função que lê o AntiSpamFilterProblem.NGAII.rs
+	 * @return Retorna as palavras separadas por espaços
+	 * @throws FileNotFoundException
+	 */
+
 	public String[] lerRS() throws FileNotFoundException{
 
-			File f= new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs");
-			Scanner s= new Scanner(f);
-			String line ="";
-       		while(s.hasNextLine()){
+		File f= new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs");
+		Scanner s= new Scanner(f);
+		String line ="";
+		while(s.hasNextLine()){
 			line+=s.nextLine();
-       		}
-       		return line.split(" ");
+		}
+		return line.split(" ");
 	}
-	
+
+
+
+	/**
+	 * Obtenção dos falsos positivos e falsos negativos da parte autom·tica para serem adicionados à frame, calculados através das funções calcFP e calcFN
+	 */
 	public void writeFPFN(){
-		
+
 		try{
 
 			Table_Model tableAux= new Table_Model();
-			for(Table_object obj : lista_regras){
+			for(Table_object obj : rulesListAuto){
 				tableAux.add_regras(obj);
 			}
 
@@ -408,8 +421,8 @@ public class Interface {
 					t++;	
 				}
 
-				int fp=calcFP(tableAux, FP_AUTO);
-				int fn=calcFN(tableAux, FN_AUTO);
+				int fp=calcFP(tableAux, autoFP,hamFile);
+				int fn=calcFN(tableAux, autoFN,spamFile);
 
 
 				pw.println(fp+" "+fn);
@@ -418,15 +431,34 @@ public class Interface {
 			}
 			pw.close();
 		}catch(FileNotFoundException e){
-			e.printStackTrace();
+
 		}
-			
+
 	}
 
+	/**
+	 * Inicialização da primeira janela
+	 */
+
 	public void open() {
+		paths.setVisible(true);
+	}
+
+	/**
+	 * Inicialização da segunda janela
+	 */
+	public void open2(){
+		rulesListManual = ReadRules.readRules(rulesFile);
+		rulesListAuto = ReadRules.readRules(rulesFile);
+
+		addFrameContent2();
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Ler o ficheiro AntiSpamFilterProblem.NSGAII.rf
+	 * @return Retorna o indicador do menor Falso Positivo
+	 */
 	public static int lerAntiSpamRF(){
 		int index=0;
 		int lowestvalue=600;  //alterei de -5.0 para 0 :RC
@@ -436,63 +468,134 @@ public class Interface {
 			Scanner s= new Scanner(f);
 			int i=0;
 
-			try{
-				while(s.hasNextLine()){
-					String line=s.nextLine();
-					String[] tokens=line.split(" ");
-					String FPstring= tokens[0];
-					String FNstring= tokens[1];
-					int FP= Integer.parseInt(FPstring);
-					int FN= Integer.parseInt(FNstring);
-					if(lowestvalue>FP){
-						lowestvalue=FP;
-						index=i+1;
-					}
-					if(lowestvalue<FP){
-						lowestvalue=lowestvalue;
-					}
-					i++;
+
+			while(s.hasNextLine()){
+				String line=s.nextLine();
+				String[] tokens=line.split(" ");
+				String FPstring= tokens[0];
+				String FNstring= tokens[1];
+				int FP= Integer.parseInt(FPstring);
+				int FN= Integer.parseInt(FNstring);
+				if(lowestvalue>FP){
+					lowestvalue=FP;
+					index=i+1;
 				}
-			}finally{
-				s.close();
+				if(lowestvalue<FP){
+					lowestvalue=lowestvalue;
+				}
+				i++;
 			}
+
+			s.close();
+
 		}catch(FileNotFoundException e){
-			e.printStackTrace();
+
 		}
 		return index;
 	}
 
-
+	/**
+	 * Ler o ficheiro AntiSpamFilterProblem.NSGAII.rs
+	 * @return a linha do ficheiro que corresponde ao indicador retornado pela função lerAntiSpamRF
+	 */
 	public String[] lerAntimSpamRS(){
 		String[] tokens=null;
-		
+
 		try{
 			File f= new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs");
 			Scanner s= new Scanner(f);
 			String line=null;
 
-			try{
+			for(int i=0; i<lerAntiSpamRF(); i++){
+				line=s.nextLine();
+			} 
+			System.out.println(line);
+			tokens=line.split(" ");
 
-				for(int i=0; i<lerAntiSpamRF(); i++){
-					line=s.nextLine();
-				}
+			s.close();
 
-				System.out.println(line);
-				tokens=line.split(" ");
-
-			}finally{
-				s.close();
-			}
 		}catch(FileNotFoundException e){
-			e.printStackTrace();
+
 		}
 		return tokens;
+	}
 
+	/**
+	 * Avalia a configuração da parte manual
+	 */
+	public void evaluateMAN(){
+		calcFP(tableModel_MAN, manualFP,hamFile);
+		calcFN(tableModel_MAN, manualFN,spamFile);
+	}
+
+	/**
+	 * Grava a configuração da parte automática escrevendo no ficheiro rules.cf
+	 */
+	public void saveAUTO(){
+		ArrayList <String> listToWriteOnFile = new ArrayList<>();
+		String s = new String();
+		for(Table_object valor : tableModel_AUTO.getObjectos()){
+			weightValues.add(valor.getValue());
+			s = valor.getRule() + ":" + valor.getValue();
+			listToWriteOnFile.add(s);
+		}
+		try {
+			PrintWriter pw = new PrintWriter(rulesFile);
+			for(String objects : listToWriteOnFile){
+				pw.println(objects);
+			}
+			pw.close();
+		} catch (Exception e) {
+		}
+		System.out.println(listToWriteOnFile);
+		listToWriteOnFile.clear();
+	}
+
+	/**
+	 * Avalia a configuração da parte automática
+	 */
+	public void evaluateAUTO(){
+		try {
+			AntiSpamFilterAutomaticConfiguration.main(null);
+			writeFPFN();
+			String[] tokens=lerAntimSpamRS();
+			int t=0;
+			for(Table_object valor : tableModel_AUTO.getObjectos()){
+				valor.setValor(Double.valueOf(tokens[t]));
+				t++;
+			} 
+			listAUTOPanel.repaint();
+		} catch (IOException e1) {
+		}
+		calcFN(tableModel_AUTO, autoFN,spamFile);
+		calcFP(tableModel_AUTO, autoFP,hamFile);
+	}
+
+	/**
+	 * Grava a configuração da parte manual escrevendo no ficheiro rules.cf
+	 */
+	public void saveMAN(){
+		ArrayList <String> listToWriteOnFile = new ArrayList<>();
+		String s = new String();
+		for(Table_object valor : tableModel_MAN.getObjectos()){
+			weightValues.add(valor.getValue());
+			s = valor.getRule() + ":" + valor.getValue();
+			listToWriteOnFile.add(s);
+		}
+		try {
+			PrintWriter pw = new PrintWriter(rulesFile);
+			for(String sss : listToWriteOnFile){
+				pw.println(sss);
+			}
+			pw.close();
+		} catch (Exception e) {
+		}
+		System.out.println(listToWriteOnFile);
+		listToWriteOnFile.clear();
 	}
 
 	public static void main(String[] args) {
 		Interface grid = new Interface();
 		grid.open();
 	}
-
 }
