@@ -1,14 +1,14 @@
-Identifica√ß√£o da turma (ex: METIA1)
+Identifica√ß√£o da turma - METIA1
 
-Identifica√ß√£o do grupo (ex: Grupo 52)
+Identifica√ß√£o do grupo - Grupo 52
 
-Identifica√ß√£o do n√∫mero, nome e papel de cada membro do grupo:
-64750, Jo√£o Nuno Teixeira, Quality Manager
-64822, Rodrigo Cortes√£o, Developer
-65217, Jo√£o Martins, Developer
+IdentificaÁ„o do n˙mero, nome e papel de cada membro do grupo:
+64750, Jo„o Nuno Teixeira, Quality Manager
+64822, Rodrigo Cortes„o, Developer
+65217, Jo„o Martins, Developer
 65297, Mariana Barros, SCRUM Master
 
-Identifica√ß√£o da variante do projeto desenvolvida:
+IdentificaÁ„o da variante do projeto desenvolvida:
 AntiSpamConfigurationForProfessionalMailbox
 
-Link para um v√≠deo no youtube com a demonstra√ß√£o da aplica√ß√£o final desenvolvida (ex: http://...)
+Link para um vÌdeo no youtube com a demonstraÁ„o da aplicaÁ„o final desenvolvida (ex: http://...)

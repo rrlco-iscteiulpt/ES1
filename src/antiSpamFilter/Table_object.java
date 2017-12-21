@@ -2,7 +2,7 @@ package antiSpamFilter;
 
 /**
  * 
- * @author Jo√£o Martins, Jo√£o Teixeira, Mariana Barros, Rodrigo Cortes√£o.
+ * @author Jo„o Martins, Jo„o Teixeira, Mariana Barros, Rodrigo Cortes„o.
  * 			65217			64750				65297			64822
  *
  */
@@ -18,7 +18,7 @@ public class Table_object {
 	}
 
 	/**
-	 * Fun√ß√£o para obter um valor de um objeto da tabela
+	 * FunÁ„o para obter um valor de um objeto da tabela
 	 * @return o valor do objeto
 	 */
 	public double getValue() {
@@ -26,7 +26,7 @@ public class Table_object {
 	}
 
 	/**
-	 * Fun√ß√£o para p√¥r um certo valor associado a um objeto da tabela
+	 * FunÁ„o para pÙr um certo valor associado a um objeto da tabela
 	 * @param valor
 	 */
 	public void setValor(double valor) {
@@ -34,7 +34,7 @@ public class Table_object {
 	}
 
 	/**
-	 * Fun√ß√£o para obter uma regra
+	 * FunÁ„o para obter uma regra
 	 * @return a regra
 	 */
 	public String getRule() {

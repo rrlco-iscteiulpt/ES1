@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /**
  * 
- * @author JoÃ£o Martins, JoÃ£o Teixeira, Mariana Barros, Rodrigo CortesÃ£o.
+ * @author João Martins, João Teixeira, Mariana Barros, Rodrigo Cortesão.
  * 			65217			64750				65297			64822
  *
  */
@@ -16,7 +16,7 @@ public class ReadRules {
 	ArrayList <String> rules;
 
 	/**
-	 * FunÃ§Ã£o que lÃª as Regras de Spam
+	 * Função que lê as Regras de Spam
 	 * @param file Ficheiro a ler
 	 * @return a lista de regras
 	 */
@@ -41,7 +41,7 @@ public class ReadRules {
 	}
 
 	/**
-	 * FunÃ§Ã£o para obter uma lista de regras
+	 * Função para obter uma lista de regras
 	 * @return lista de regras
 	 */
 	public ArrayList<String> getRules() {
@@ -49,7 +49,7 @@ public class ReadRules {
 	}
 
 	/**
-	 * FunÃ§Ã£o para pÃ´r uma lista de regras
+	 * Função para pôr uma lista de regras
 	 * @param rules regras de uma lista
 	 */
 	public void setRules(ArrayList<String> rules) {

@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 
 /**
  * 
- * @author Jo√£o Martins, Jo√£o Teixeira, Mariana Barros, Rodrigo Cortes√£o.
+ * @author Jo„o Martins, Jo„o Teixeira, Mariana Barros, Rodrigo Cortes„o.
  * 			65217			64750				65297			64822
  *
  */
@@ -36,10 +36,10 @@ public class Interface {
 	public Table_Model tableModel_AUTO = new Table_Model();
 	private JTable tableManual = new JTable(tableModel_MAN);
 	private JTable tableAuto =  new JTable(tableModel_AUTO);
-	public JButton evaluateMAN = new JButton("Avaliar configura√ß√£o Manual");
-	public JButton saveMAN = new JButton("Gravar configura√ß√£o Manual");
-	public JButton evaluateAUTO = new JButton("Gerar configura√ß√£o autom√°tica");
-	public JButton saveAUTO = new JButton("Gravar configura√ß√£o Autom√°tica");
+	public JButton evaluateMAN = new JButton("Avaliar configuraÁ„o Manual");
+	public JButton saveMAN = new JButton("Gravar configuraÁ„o Manual");
+	public JButton evaluateAUTO = new JButton("Gerar configuraÁ„o autom·tica");
+	public JButton saveAUTO = new JButton("Gravar configuraÁ„o Autom·tica");
 	public JButton fechar = new JButton("Fechar janela");
 
 	public JTextField spamField = new JTextField(10);
@@ -67,8 +67,8 @@ public class Interface {
 	}
 
 	/**
-	 * Constr√≥i a janela.
-	 * Cria e adiciona √† primeira Frame todos os seus elementos relacionados com a escolha dos ficheiros
+	 * ConstrÛi a janela.
+	 * Cria e adiciona ‡ primeira Frame todos os seus elementos relacionados com a escolha dos ficheiros
 	 */
 
 	private void addFrameContent() {
@@ -124,7 +124,7 @@ public class Interface {
 
 
 	/**
-	 * Cria e adiciona √† segunda Frame todos os seus elementos relacionados com as regras e pesos da parte Manual e autom¬∑tica
+	 * Cria e adiciona†‡ segunda Frame todos os seus elementos relacionados com as regras e pesos da parte Manual e autom·tica
 	 */
 	private void addFrameContent2() {
 		//-------------------------------------------------------------------------------------
@@ -220,6 +220,32 @@ public class Interface {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				evaluateAUTO();
+				String[] params = new String[2];
+				String[] envp = new String[1];
+				
+				params[0] = "C:\\Program Files\\R\\R-3.4.3\\bin\\x64\\Rscript.exe";
+				params[1] = "C:\\Users\\Mariana Barros\\git\\ES1-2017-METIA1-52\\experimentBaseDirectory\\AntiSpamStudy\\R";
+				envp[0] = "Path = C:\\Program Files\\R\\R-3.4.3\\bin\\x64";
+				
+				try {
+					Process p = Runtime.getRuntime().exec(params,envp, new File("C:\\Users\\Mariana Barros\\git\\ES1-2017-METIA1-52\\experimentBaseDirectory\\AntiSpamStudy\\R"));
+				} catch (IOException e1) {
+				System.out.println("Erro a gerar os gr·ficos R");
+				}
+				
+				
+				String[] paramsLatex = new String[2];
+				String[] envpLatex = new String[1];
+				
+				paramsLatex[0] = "C:\\Program Files\\MiKTeX 2.9\\miktex\\bin\\x64\\pdflatex.exe";
+				paramsLatex[1] = "C:\\Users\\Mariana Barros\\git\\ES1-2017-METIA1-52\\experimentBaseDirectory\\AntiSpamStudy\\latex\\AntiSpamStudy.tex";
+				envpLatex[0] = "Path = C:\\Program Files\\MiKTeX 2.9\\miktex\\bin\\x64";
+				
+				try {
+					Process p = Runtime.getRuntime().exec(paramsLatex,envpLatex, new File("C:\\Users\\Mariana Barros\\git\\ES1-2017-METIA1-52\\experimentBaseDirectory\\AntiSpamStudy\\latex"));
+				} catch (IOException e1) {
+				System.out.println("Erro a gerar os gr·ficos latex");
+				}
 			}
 		});
 
@@ -242,7 +268,7 @@ public class Interface {
 	}
 
 	/**
-	 * Fu√ß√£o que calcula o n√∫mero de Falsos Positivos de um vector de pesos.
+	 * FunÁ„o que calcula o n˙mero de Falsos Positivos de um vector de pesos.
 	 * 
 	 * @param tableToRead Tabela √† qual se ir√° buscar os pesos respetivos de cada regra
 	 * @param fieldToWrite  Caixa de Texto onde ser√° inserido o valor calculado dos Falsos Positivos
@@ -313,7 +339,7 @@ public class Interface {
 	}
 
 	/**
-	 * Fu√ß√£o que calcula o n√∫mero de Falsos Negativos de um vector de pesos.
+	 * FunÁ„o que calcula o n˙mero de Falsos Negativos de um vector de pesos.
 	 * 
 	 * @param tableToRead Tabela √† qual se ir√° buscar os pesos respetivos de cada regra
 	 * @param fieldToWrite  Caixa de Texto onde ser¬∑ inserido o valor calculado dos Falsos negativos
@@ -380,8 +406,8 @@ public class Interface {
 	}
 
 	/**
-	 * Fun√ß√£o que l√™ o AntiSpamFilterProblem.NGAII.rs
-	 * @return Retorna as palavras separadas por espa√ßos
+	 * FunÁ„o que lÍ o AntiSpamFilterProblem.NGAII.rs
+	 * @return Retorna as palavras separadas por espaÁos
 	 * @throws FileNotFoundException
 	 */
 
@@ -399,7 +425,7 @@ public class Interface {
 
 
 	/**
-	 * Obten√ß√£o dos falsos positivos e falsos negativos da parte autom¬∑tica para serem adicionados √† frame, calculados atrav√©s das fun√ß√µes calcFP e calcFN
+	 * ObtenÁ„o dos falsos positivos e falsos negativos da parte autom¬∑tica para serem adicionados √† frame, calculados atrav√©s das fun√ß√µes calcFP e calcFN
 	 */
 	public void writeFPFN(){
 
@@ -496,7 +522,7 @@ public class Interface {
 
 	/**
 	 * Ler o ficheiro AntiSpamFilterProblem.NSGAII.rs
-	 * @return a linha do ficheiro que corresponde ao indicador retornado pela fun√ß√£o lerAntiSpamRF
+	 * @return a linha do ficheiro que corresponde ao indicador retornado pela funÁ„o lerAntiSpamRF
 	 */
 	public String[] lerAntimSpamRS(){
 		String[] tokens=null;
@@ -521,7 +547,7 @@ public class Interface {
 	}
 
 	/**
-	 * Avalia a configura√ß√£o da parte manual
+	 * Avalia a configuraÁ„o da parte manual
 	 */
 	public void evaluateMAN(){
 		calcFP(tableModel_MAN, manualFP,hamFile);
@@ -529,7 +555,7 @@ public class Interface {
 	}
 
 	/**
-	 * Grava a configura√ß√£o da parte autom√°tica escrevendo no ficheiro rules.cf
+	 * Grava a configuraÁ„o da parte autom·tica escrevendo no ficheiro rules.cf
 	 */
 	public void saveAUTO(){
 		ArrayList <String> listToWriteOnFile = new ArrayList<>();
@@ -552,7 +578,7 @@ public class Interface {
 	}
 
 	/**
-	 * Avalia a configura√ß√£o da parte autom√°tica
+	 * Avalia a configuraÁ„o da parte autom·tica
 	 */
 	public void evaluateAUTO(){
 		try {
@@ -572,7 +598,7 @@ public class Interface {
 	}
 
 	/**
-	 * Grava a configura√ß√£o da parte manual escrevendo no ficheiro rules.cf
+	 * Grava a configuraÁ„o da parte manual escrevendo no ficheiro rules.cf
 	 */
 	public void saveMAN(){
 		ArrayList <String> listToWriteOnFile = new ArrayList<>();

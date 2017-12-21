@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  * 
- * @author JoÃ£o Martins, JoÃ£o Teixeira, Mariana Barros, Rodrigo CortesÃ£o.
+ * @author João Martins, João Teixeira, Mariana Barros, Rodrigo Cortesão.
  * 			65217			64750				65297			64822
  *
  */
@@ -17,8 +17,8 @@ public class Table_Model extends AbstractTableModel{
 	private ArrayList <Table_object> objects = new ArrayList<>();
 
 	/**
-	 * FunÃ§Ã£o para obter o nÃºmero de colunas da tabela 
-	 * @return o nÃºmero de colunas
+	 * Função para obter o número de colunas da tabela 
+	 * @return o número de colunas
 	 */
 	@Override
 	public int getColumnCount() {
@@ -26,8 +26,8 @@ public class Table_Model extends AbstractTableModel{
 	}
 
 	/**
-	 * FunÃ§Ã£o para obter o nÃºmero de linhas da tabela
-	 * @return tamanho da lista de objetos logo o nÃºmero de linhas
+	 * Função para obter o número de linhas da tabela
+	 * @return tamanho da lista de objetos logo o número de linhas
 	 */
 	@Override
 	public int getRowCount() {
@@ -35,7 +35,7 @@ public class Table_Model extends AbstractTableModel{
 	}
 
 	/**
-	 * FunÃ§Ã£o para obter um objeto numa certa linha e coluna se estiver na primeira coluna Ã© um objeto do tipo regra e na segunda coluna um valor
+	 * Função para obter um objeto numa certa linha e coluna se estiver na primeira coluna é um objeto do tipo regra e na segunda coluna um valor
 	 */
 	@Override
 	public Object getValueAt(int row, int column) {
@@ -51,7 +51,7 @@ public class Table_Model extends AbstractTableModel{
 	}
 
 	/**
-	 * FunÃ§Ã£o para obter o nome da coluna
+	 * Função para obter o nome da coluna
 	 */
 	@Override
 	public String getColumnName(int column) {
@@ -67,7 +67,7 @@ public class Table_Model extends AbstractTableModel{
 	}
 
 	/**
-	 * Adiciona um objeto regra Ã  lista de objetos
+	 * Adiciona um objeto regra à lista de objetos
 	 * @param table_object objeto regra
 	 */
 	public void add_regras (Table_object table_object){
@@ -77,7 +77,7 @@ public class Table_Model extends AbstractTableModel{
 	}
 
 	/**
-	 * FunÃ§Ã£o para pÃ´r um determinado valor numa certa coluna e linha
+	 * Função para pôr um determinado valor numa certa coluna e linha
 	 */
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -91,7 +91,7 @@ public class Table_Model extends AbstractTableModel{
 	}
 
 	/**
-	 * FunÃ§Ã£o que torna a primeira coluna editÂ·vel e segunda nÃ£o-editÃ¡vel.
+	 * Função que torna a primeira coluna editável e segunda não-editável.
 	 */
 	public boolean isCellEditable(int row, int col) { 
 		switch (col) {
@@ -103,7 +103,7 @@ public class Table_Model extends AbstractTableModel{
 	}
 
 	/**
-	 * FunÃ§Ã£o para obter os objetos de uma lista de objetos
+	 * Função para obter os objetos de uma lista de objetos
 	 * @return os objetos
 	 */
 	public ArrayList<Table_object> getObjectos() {
