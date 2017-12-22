@@ -1,6 +1,6 @@
-IdentificaÃ§Ã£o da turma - METIA1
+Identificação da turma - METIA1
 
-IdentificaÃ§Ã£o do grupo - Grupo 52
+Identificação do grupo - Grupo 52
 
 Identificação do número, nome e papel de cada membro do grupo:
 64750, João Nuno Teixeira, Quality Manager
@@ -11,4 +11,5 @@ Identificação do número, nome e papel de cada membro do grupo:
 Identificação da variante do projeto desenvolvida:
 AntiSpamConfigurationForProfessionalMailbox
 
-Link para um vídeo no youtube com a demonstração da aplicação final desenvolvida (ex: http://...)
+Link para um vídeo no youtube com a demonstração da aplicação final desenvolvida :
+https://www.youtube.com/watch?v=3ANnCbwEtwg&feature=youtu.be
