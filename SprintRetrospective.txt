@@ -1,0 +1,35 @@
+Sprint Retrospective
+
+1st Sprint Retrospective
+
+Ficheiro rules.cf foi bem lido, dá jeito depois para a interface estar numa classe à parte.
+Interface gráfica criada inicialmente com apenas uma parte, o grupo não tinha entendido bem que era para dividir por parte manual e automática.
+Dúvida da janela tirada numa aula prática.
+Lista de regras bem adicionada à interface gráfica, apesar de ainda não estarem adicionadas à tabela.
+Bem pensado criar uma regra como um table object.
+A equipa tem o trabalho bem dividido, todos conseguiram antigir os objetivos propostos no tempo proposto.
+Programa não pronto para entrega tal como previsto.
+
+
+2nd Sprint Retrospective
+
+Os botões da interface gráfica estão todos a funcionar.
+Parte manual acabada com rapidez.
+Calculo dos falsos positivos e falsos negativos bem feito apesar de ter sido depois ligeiramente alterado para uso de outras funções.
+Inicialmente quando se guardava os pesos das regras no ficheiro rules.cf guardavamos uns ao lado dos outros sem apagar, mais tarde foi corrigido com uma alteração mínima de código.
+A melhor opção a utilizar para um correio profissional foi de pensamento rápido e unânime.
+Leitura dos ficheiro AntiSpam.rf e AntiSpam.rs foram rápidas e a estrutura de leitura foi tirada da classe onde se lia o ficheiro rules.cf.
+Atribuidos pesos do ficheiro AntiSpam.rf às regras com maior dificuldade, mas feito no fim do Sprint.
+Programa não pronto para entrega tal como previsto.
+
+
+3rd Sprint Retrospective
+
+Testes unitários demoraram mais tempo do que esperado inicialmente, mas concluidos antes do sprint acabar.
+Code inspection feito com facilidade dada a cobertura.
+Screenshots da cobertura feito rápidamente e sem dificuldade.
+Ficheiro .jar feito com sucesso.
+Inicialmente não sabiamos gerar o javadoc mais depois de aprender foi feito com rapidez.
+Diagrama de classes foi fácil depois de intalar o plugin Eclipse Model-Goon.
+Vídeo feito de modo a demontrar as funcionalidades do programa.
+Programa pronto para entrega no prazo estimado.  
